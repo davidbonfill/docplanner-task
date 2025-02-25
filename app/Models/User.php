@@ -14,12 +14,12 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property int $id
  * @property-read Task[]|Collection $tasks
+ *
+ * @use HasFactory<UserFactory>
  */
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use Notifiable;
 

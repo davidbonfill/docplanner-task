@@ -15,13 +15,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $description
  * @property TaskStatus $status
  *
+ * @use HasFactory<TaskFactory>
+ *
  * @mixin Builder
  */
 class Task extends Model
 {
-    /** @use HasFactory<TaskFactory> */
     use HasFactory;
-
     use SoftDeletes;
 
     protected $fillable = [
