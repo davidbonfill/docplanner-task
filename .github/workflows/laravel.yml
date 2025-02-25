@@ -29,7 +29,7 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Run Pint
-      run: vendor/bin/pint --test
+      run: vendor/bin/pint --test --verbose
     - name: Run Larastan
       run: vendor/bin/phpstan analyse
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
