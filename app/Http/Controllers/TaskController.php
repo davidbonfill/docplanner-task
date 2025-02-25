@@ -6,6 +6,8 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Services\TaskService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +17,11 @@ use Illuminate\Support\Facades\Gate;
  */
 class TaskController extends Controller
 {
+    public function __construct(public TaskService $taskService)
+    {
+        //
+    }
+
     /**
      * GET tasks
      *
@@ -22,9 +29,9 @@ class TaskController extends Controller
      *
      * @authenticated
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return TaskResource::collection(auth()->user()->tasks);
+        return TaskResource::collection($this->taskService->getUserTasks($request->user()));
     }
 
     /**
@@ -38,7 +45,7 @@ class TaskController extends Controller
     {
         Gate::authorize('create', Task::class);
 
-        $task = auth()->user()->tasks()->create($request->validated());
+        $task = $this->taskService->createTask($request->user(), $request->validated());
 
         return new TaskResource($task);
     }
@@ -68,7 +75,7 @@ class TaskController extends Controller
     {
         Gate::authorize('update', $task);
 
-        $task->update($request->validated());
+        $this->taskService->updateTask($task, $request->validated());
 
         return new TaskResource($task);
     }
@@ -84,7 +91,7 @@ class TaskController extends Controller
     {
         Gate::authorize('delete', $task);
 
-        $task->delete();
+        $this->taskService->deleteTask($task);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
