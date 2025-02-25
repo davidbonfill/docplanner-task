@@ -215,7 +215,7 @@ describe('authorized request tests', function () {
 
     it('cannot update a non-existing task', function () {
         $response = $this->putJson('/api/tasks/999', [
-            'status' => 'completed',
+            'status' => TaskStatus::COMPLETED->value,
             'description' => 'Updated description',
         ]);
 
@@ -268,7 +268,7 @@ describe('unauthorized request tests', function () {
     it('fails to create a task without authentication', function () {
         $taskData = [
             'description' => 'New Task',
-            'status' => 'pending',
+            'status' => TaskStatus::PENDING->value,
         ];
 
         $response = $this->postJson('/api/tasks', $taskData);
@@ -277,7 +277,7 @@ describe('unauthorized request tests', function () {
     });
 
     it('fails to update a task with PUT without authentication', function () {
-        $updateData = ['description' => 'Updated Task', 'status' => 'completed'];
+        $updateData = ['description' => 'Updated Task', 'status' => TaskStatus::COMPLETED->value];
 
         $response = $this->putJson("/api/tasks/{$this->task->id}", $updateData);
 
@@ -285,7 +285,7 @@ describe('unauthorized request tests', function () {
     });
 
     it('fails to update a task with PATCH without authentication', function () {
-        $updateData = ['status' => 'in_progress']; // Partial update
+        $updateData = ['status' => TaskStatus::IN_PROGRESS->value]; // Partial update
 
         $response = $this->patchJson("/api/tasks/{$this->task->id}", $updateData);
 
