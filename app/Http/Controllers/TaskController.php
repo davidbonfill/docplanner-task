@@ -8,11 +8,19 @@ use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
+/**
+ * @group Tasks
+ */
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * GET tasks
+     *
+     * Display a listing of authenticated user's tasks.
+     *
+     * @authenticated
      */
     public function index(): AnonymousResourceCollection
     {
@@ -20,13 +28,15 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * POST task
+     *
+     * Store a newly created task in storage.
+     *
+     * @authenticated
      */
     public function store(StoreTaskRequest $request): TaskResource
     {
-        if (auth()->user()->cannot('create', Task::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Task::class);
 
         $task = auth()->user()->tasks()->create($request->validated());
 
@@ -34,25 +44,29 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * GET task
+     *
+     * Display the specified task.
+     *
+     * @authenticated
      */
     public function show(Task $task): TaskResource
     {
-        if (auth()->user()->cannot('view', $task)) {
-            abort(403);
-        }
+        Gate::authorize('view', $task);
 
         return new TaskResource($task);
     }
 
     /**
-     * Update the specified resource in storage.
+     * PUT task
+     *
+     * Update the specified task in storage.
+     *
+     * @authenticated
      */
     public function update(UpdateTaskRequest $request, Task $task): TaskResource
     {
-        if (auth()->user()->cannot('update', $task)) {
-            abort(403);
-        }
+        Gate::authorize('update', $task);
 
         $task->update($request->validated());
 
@@ -60,13 +74,15 @@ class TaskController extends Controller
     }
 
     /**
+     * DELETE task
+     *
      * Remove the specified resource from storage.
+     *
+     * @authenticated
      */
     public function destroy(Task $task): Response
     {
-        if (auth()->user()->cannot('delete', $task)) {
-            abort(403);
-        }
+        Gate::authorize('delete', $task);
 
         $task->delete();
 

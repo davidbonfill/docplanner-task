@@ -26,9 +26,6 @@ class UpdateTaskRequest extends FormRequest
 
         return match ($this->method()) {
             'PUT' => [
-                'user_id' => [
-                    'missing',
-                ],
                 'status' => [
                     'required',
                     Rule::enum(TaskStatus::class),
@@ -39,9 +36,6 @@ class UpdateTaskRequest extends FormRequest
                 ],
             ],
             'PATCH' => [
-                'user_id' => [
-                    'missing',
-                ],
                 'status' => [
                     'sometimes', // Validating when present
                     'required',

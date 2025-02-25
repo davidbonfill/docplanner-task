@@ -13,11 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
+        /** @var User $user */
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        $token = '1|this_is_a_fixed_token_for_testing_purposes';
+
+        $user->tokens()->create([
+            'name' => 'ScribeToken',
+            'token' => hash('sha256', explode('|', $token)[1]),
+            'abilities' => ['*'],
+        ]);
+
+        $this->call([
+            TaskSeeder::class,
         ]);
     }
 }
