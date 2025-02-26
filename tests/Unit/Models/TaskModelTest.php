@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\Task;
 use App\Enums\TaskStatus;
+use App\Models\Task;
 
 it('has correct fillable fields defined', function () {
-    $task = new Task();
+    $task = new Task;
     expect($task->getFillable())->toEqual([
         'user_id',
         'description',
@@ -13,7 +13,7 @@ it('has correct fillable fields defined', function () {
 });
 
 it('applies cast to the status attribute', function () {
-    $task = new Task();
+    $task = new Task;
     $task->setRawAttributes(['status' => TaskStatus::PENDING->value], true);
 
     $status = $task->status;

@@ -80,6 +80,7 @@ After installation, you may want to set `APP_DEBUG=false` in your `.env` file to
 ### Access the Project
 - API Documentation: [http://localhost:5000/docs](http://localhost:5000/docs) (Generated with **[Scribe](https://scribe.knuckles.wtf/laravel/)**)
 - App Running at: [http://localhost:5000](http://localhost:5000)
+- Frontend Task Implementation: [http://localhost:5000/ui](http://localhost:5000/ui) (JavaScript-based frontend consuming the API)
 
 ---
 ## Running Static Analysis & Tests
