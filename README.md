@@ -44,8 +44,6 @@ Adjust the `.env` file according to your needs (especially database credentials)
 ### Adjust File Owner
 ```sh
   sudo chown -R $USER .
-  sudo find . -type f -exec chmod 664 {} \;
-  sudo find . -type d -exec chmod 775 {} \;
 ```
 
 ### Build and Start Docker Containers
@@ -62,7 +60,6 @@ Before running the application, install the necessary dependencies:
 
 ### Adjust File Permissions
 ```sh
-  sudo chown -R $USER .
   sudo find . -type f -exec chmod 664 {} \;
   sudo find . -type d -exec chmod 775 {} \;
   sudo find ./vendor/bin/ -type f -exec chmod 755 {} \;
@@ -129,9 +126,9 @@ This pipeline ensures code quality and runs the following steps automatically:
 ## Additional Notes
 - To stop the containers:
   ```sh
-  docker compose down
+  docker compose stop
   ```
-- To rebuild containers (after dependency updates):
+- To rebuild containers:
   ```sh
   docker compose up -d --build
   ```
