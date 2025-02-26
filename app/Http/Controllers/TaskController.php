@@ -93,6 +93,6 @@ class TaskController extends Controller
 
         $this->taskService->deleteTask($task);
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent();
     }
 }
