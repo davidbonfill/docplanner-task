@@ -6,10 +6,10 @@ This project is built using **Laravel** and follows a **TDD (Test-Driven Develop
 ### Key Features:
 - **TDD Development:** PestPHP is used for testing.
 - **Quick File Generation:** Common Laravel commands were used to speed up development. Example:
-  ```sh
-  php artisan make:model -a --api --pest Task
-  php artisan make:enum -s TaskStatus
-  ```
+    ```sh
+    php artisan make:model -a --api --pest Task
+    php artisan make:enum -s TaskStatus
+    ```
 - **PHPStorm Optimizations:** Configured run settings for streamlined execution of **tests, Larastan, and Laravel Pint**.
 - **GitHub Actions CI/CD Pipeline:** Automated checks running **Laravel Pint**, **Larastan**, and **PestPHP tests**. See `.github/workflows/` for details.
 
@@ -41,7 +41,7 @@ Copy the example environment file:
 ```
 Adjust the `.env` file according to your needs (especially database credentials).
 
-### Adjust File Permissions
+### Adjust File Owner
 ```sh
   sudo chown -R $USER .
   sudo find . -type f -exec chmod 664 {} \;
@@ -50,24 +50,32 @@ Adjust the `.env` file according to your needs (especially database credentials)
 
 ### Build and Start Docker Containers
 ```sh
-  docker-compose up -d --build
+  docker compose up -d --build
 ```
 This will set up the Laravel app and MySQL service.
 
 ### Install Dependencies
 Before running the application, install the necessary dependencies:
 ```sh
-  docker-compose exec docplanner-task composer install
+  docker compose exec docplanner-task composer install
+```
+
+### Adjust File Permissions
+```sh
+  sudo chown -R $USER .
+  sudo find . -type f -exec chmod 664 {} \;
+  sudo find . -type d -exec chmod 775 {} \;
+  sudo find ./vendor/bin/ -type f -exec chmod 755 {} \;
 ```
 
 ### Set Laravel Application Key
 ```sh
-  docker-compose exec docplanner-task php artisan key:generate
+  docker compose exec docplanner-task php artisan key:generate
 ```
 
 ### Run Migrations and Seed Database
 ```sh
-  docker-compose exec docplanner-task php artisan migrate --seed
+  docker compose exec docplanner-task php artisan migrate --seed
 ```
 
 ### Set Debug Mode for Clearer Exception Messages
@@ -78,25 +86,25 @@ After installation, you may want to set `APP_DEBUG=false` in your `.env` file to
 ```
 
 ### Access the Project
-- API Documentation: [http://localhost:5000/docs](http://localhost:5000/docs) (Generated with **[Scribe](https://scribe.knuckles.wtf/laravel/)**)
 - App Running at: [http://localhost:5000](http://localhost:5000)
+- API Documentation: [http://localhost:5000/docs](http://localhost:5000/docs) (Generated with **[Scribe](https://scribe.knuckles.wtf/laravel/)**)
 - Frontend Task Implementation: [http://localhost:5000/ui](http://localhost:5000/ui) (JavaScript-based frontend consuming the API)
 
 ---
 ## Running Static Analysis & Tests
 ### Run Laravel Pint (Code Style)
 ```sh
-  docker-compose exec docplanner-task vendor/bin/pint --test
+  docker compose exec docplanner-task vendor/bin/pint --test
 ```
 
 ### Run Larastan (Static Analysis)
 ```sh
-  docker-compose exec docplanner-task vendor/bin/phpstan analyse
+  docker compose exec docplanner-task vendor/bin/phpstan analyse
 ```
 
 ### Run Pest Tests
 ```sh
-  docker-compose exec docplanner-task vendor/bin/pest
+  docker compose exec docplanner-task vendor/bin/pest
 ```
 
 ---
@@ -121,20 +129,20 @@ This pipeline ensures code quality and runs the following steps automatically:
 ## Additional Notes
 - To stop the containers:
   ```sh
-  docker-compose down
+  docker compose down
   ```
 - To rebuild containers (after dependency updates):
   ```sh
-  docker-compose up -d --build
+  docker compose up -d --build
   ```
 - To enter the application container shell:
   ```sh
-  docker-compose exec docplanner-task bash
+  docker compose exec docplanner-task bash
   ```
 
 For any issues, check the container logs:
 ```sh
-  docker-compose logs -f
+  docker compose logs -f
 ```
 
 Enjoy! 
