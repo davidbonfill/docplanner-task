@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\TaskCreated;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepositoryInterface;
@@ -26,7 +27,11 @@ class TaskService
 
     public function createTask(User $user, array $data): Task
     {
-        return $this->taskRepository->createTask($user, $data);
+        $task = $this->taskRepository->createTask($user, $data);
+
+        TaskCreated::dispatch($task);
+
+        return $task;
     }
 
     public function updateTask(Task $task, array $data): Task

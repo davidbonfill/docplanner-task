@@ -1,11 +1,13 @@
 <?php
 
 use App\Enums\TaskStatus;
+use App\Events\TaskCreated;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepositoryInterface;
 use App\Services\TaskService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Event;
 use Mockery\MockInterface;
 
 it('retrieves user tasks', function () {
@@ -26,6 +28,8 @@ it('retrieves user tasks', function () {
 });
 
 it('creates a task for a user', function () {
+    Event::fake();
+
     $user = new User;
     $data = [
         'status' => TaskStatus::PENDING->value,
@@ -48,6 +52,8 @@ it('creates a task for a user', function () {
     expect($task)->toBe($expectedTask)
         ->and($task->status->value)->toEqual(TaskStatus::PENDING->value)
         ->and($task->description)->toEqual('Test task');
+
+    Event::assertDispatched(TaskCreated::class);
 });
 
 it('updates a task', function () {
