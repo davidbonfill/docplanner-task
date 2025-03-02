@@ -6,7 +6,6 @@ use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class TaskService
 {
@@ -25,12 +24,12 @@ class TaskService
         return $this->taskRepository->getUserTasks($user);
     }
 
-    public function createTask(User $user, array $data): Model|Task
+    public function createTask(User $user, array $data): Task
     {
         return $this->taskRepository->createTask($user, $data);
     }
 
-    public function updateTask(Task $task, array $data): Model|Task
+    public function updateTask(Task $task, array $data): Task
     {
         return $this->taskRepository->updateTask($task, $data);
     }
