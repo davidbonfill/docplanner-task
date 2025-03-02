@@ -9,6 +9,7 @@
         "php": "^8.2",
         "bugsnag/bugsnag-laravel": "^2.0",
         "laravel/framework": "^12.0",
+        "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1"
     },
@@ -19,6 +20,7 @@
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.21",
         "laravel/sail": "^1.41",
+        "laravel/telescope": "^5.5",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.7",
@@ -59,7 +61,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
