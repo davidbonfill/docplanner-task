@@ -13,6 +13,7 @@ Route::post('/login', LoginController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('/tasks/datatable', [TaskController::class, 'datatable']);
     Route::apiResource('tasks', TaskController::class);
 
 });

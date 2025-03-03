@@ -26,6 +26,52 @@ describe('authorized request tests', function () {
             ->assertJsonCount(3, 'data');
     });
 
+    it('can list tasks for datatables', function () {
+        Task::factory()->count(3)->create(['user_id' => $this->user->id]);
+        Task::factory()->count(2)->softDeleted()->create(['user_id' => $this->user->id]);
+
+        $response = $this->getJson('/api/tasks/datatable');
+
+        $response->assertOk()
+            ->assertJsonCount(3, 'data')
+            ->assertJsonStructure([
+                'data',
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+            ]);
+    });
+
+    it('only lists tasks belonging to the authenticated user', function () {
+        $otherUser = User::factory()->create();
+
+        Task::factory()->count(3)->create(['user_id' => $this->user->id]);
+        Task::factory()->count(5)->create(['user_id' => $otherUser->id]);
+
+        $response = $this->getJson('/api/tasks');
+
+        $response->assertOk()
+            ->assertJsonCount(3, 'data');
+    });
+
+    it('only lists tasks for datatables belonging to the authenticated user', function () {
+        $otherUser = User::factory()->create();
+
+        Task::factory()->count(3)->create(['user_id' => $this->user->id]);
+        Task::factory()->count(5)->create(['user_id' => $otherUser->id]);
+
+        $response = $this->getJson('/api/tasks/datatable');
+
+        $response->assertOk()
+            ->assertJsonCount(3, 'data')
+            ->assertJsonStructure([
+                'data',
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+            ]);
+    });
+
     /*************************************
      * SHOW ENDPOINT TESTS
      ************************************/

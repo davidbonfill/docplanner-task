@@ -1,21 +1,20 @@
-name: Tasks
+name: Endpoints
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/tasks
+    uri: api/user
     metadata:
-      groupName: Tasks
+      groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'GET tasks'
-      description: "Display a listing of authenticated user's tasks."
-      authenticated: true
+      title: ''
+      description: ''
+      authenticated: false
       custom: []
     headers:
-      Authorization: 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -27,8 +26,8 @@ endpoints:
     fileParameters: []
     responses:
       -
-        status: 200
-        content: '{"data":[{"id":51,"user_id":1,"status":"in_progress","description":"Eius et animi quos velit et."},{"id":52,"user_id":1,"status":"in_progress","description":"Eius et animi quos velit et."}]}'
+        status: 401
+        content: '{"message":"Unauthenticated."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -36,10 +35,7 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
+    auth: []
     controller: null
     method: null
     route: null
@@ -47,18 +43,17 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/tasks
+    uri: api/login
     metadata:
-      groupName: Tasks
+      groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'POST task'
-      description: 'Store a newly created task in storage.'
-      authenticated: true
+      title: ''
+      description: ''
+      authenticated: false
       custom: []
     headers:
-      Authorization: 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -66,212 +61,33 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      status:
-        name: status
-        description: ''
+      email:
+        name: email
+        description: 'Must be a valid email address.'
         required: true
-        example: completed
+        example: gbailey@example.net
         type: string
-        enumValues:
-          - pending
-          - in_progress
-          - completed
+        enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
-      description:
-        name: description
+      password:
+        name: password
         description: ''
         required: true
-        example: 'Eius et animi quos velit et.'
+        example: architecto
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         custom: []
     cleanBodyParameters:
-      status: completed
-      description: 'Eius et animi quos velit et.'
+      email: gbailey@example.net
+      password: architecto
     fileParameters: []
     responses: []
     responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/tasks/{id}'
-    metadata:
-      groupName: Tasks
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'GET task'
-      description: 'Display the specified task.'
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the task.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 403
-        content: |-
-          {
-              "message": "You do not own this task."
-          }
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'api/tasks/{id}'
-    metadata:
-      groupName: Tasks
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'PUT task'
-      description: 'Update the specified task in storage.'
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the task.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      status:
-        name: status
-        description: ''
-        required: true
-        example: pending
-        type: string
-        enumValues:
-          - pending
-          - in_progress
-          - completed
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      description:
-        name: description
-        description: ''
-        required: true
-        example: 'Eius et animi quos velit et.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanBodyParameters:
-      status: pending
-      description: 'Eius et animi quos velit et.'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'api/tasks/{id}'
-    metadata:
-      groupName: Tasks
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'DELETE task'
-      description: 'Remove the specified resource from storage.'
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the task.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth:
-      - headers
-      - Authorization
-      - 'Bearer 1|this_is_a_fixed_token_for_testing_purposes'
+    auth: []
     controller: null
     method: null
     route: null

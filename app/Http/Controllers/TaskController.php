@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\TasksDataTable;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -20,6 +22,18 @@ class TaskController extends Controller
     public function __construct(public TaskService $taskService)
     {
         //
+    }
+
+    /**
+     * GET tasks (Datatable)
+     *
+     * Display a listing of authenticated user's tasks for datatable serverside option.
+     *
+     * @authenticated
+     */
+    public function datatable(Request $request): JsonResponse
+    {
+        return (new TasksDataTable($request->user()))->ajax();
     }
 
     /**
