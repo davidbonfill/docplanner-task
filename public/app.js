@@ -41,16 +41,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const taskTable = $("#task-table").DataTable({
+        serverSide: true,
         ajax: {
-            url: apiUrl,
+            url: apiUrl + '/datatable',
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("api_token")}`
             },
             dataSrc: "data"
         },
-        paging: false,
-        searching: false,
         columns: [
             { data: "id" },
             { data: "description" },
@@ -77,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 },
             },
         ],
+        order: [[3, 'desc']]
     });
 
     taskForm.addEventListener("submit", function (e) {
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             .then(response => response.json())
             .then(() => {
                 taskInput.value = "";
-                taskTable.ajax.reload();
+                taskTable.ajax.reload(null, false);
             })
             .catch(error => console.error("Error adding task:", error));
     });
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "Authorization": `Bearer ${localStorage.getItem("api_token")}`
             }
         })
-            .then(() => taskTable.ajax.reload())
+            .then(() => taskTable.ajax.reload(null, false))
             .catch(error => console.error("Error deleting task:", error));
     });
 
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             },
             body: JSON.stringify({ description: newDescription, status: newStatus }),
         })
-        .then(() => taskTable.ajax.reload())
+        .then(() => taskTable.ajax.reload(null, false))
         .catch(error => console.error("Error updating task:", error));
     });
 
